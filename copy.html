@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #ffe6f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #d63384;
+        }
+        p.toggle {
+            cursor: pointer;
+            font-weight: bold;
+            color: blue;
+            margin-top: 30px;
+        }
+        .section {
+            display: none;
+            padding-left: 20px;
+        }
+        img {
+            margin: 10px 0;
+            border-radius: 8px;
+            display: block;
+        }
+        a {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        hr {
+            margin: 30px 0;
+            border-top: 1px solid #ccc;
+        }
+        footer {
+            text-align: center;
+            background-color: #87ceeb;
+            padding: 10px;
+            margin-top: 40px;
+        }
+    </style>
+    <script>
+        function toggleSection(id) {
+            const section = document.getElementById(id);
+            section.style.display = section.style.display === "none" ? "block" : "none";
+        }
+    </script>
+    <title>Elevate Your University Prep</title>
+</head>
+<body>
+    <div class="container">
+        <h2>South African Universities With No Application Fee.</h2>
+
+       
+        <p class="toggle" onclick="toggleSection('uj')">University of Johannesburg (UJ)</p>
+        <div class="section" id="uj">
+            <img src="uj.webp" height="60px" width="140px" alt="UJ logo" />
+            <a href="https://prepforuni.com/university-of-johannesburg-uj-prospectus-download-pdf/" target="_blank">CHECK PROSPECTUS</a>
+            <a href="https://www.uj.ac.za" target="_blank">APPLY</a>
+            <a href="https://registration.uj.ac.za/pls/prodi41/w99pkg.mi_login" target="_blank">CHECK STATUS</a>
+            <hr/>
+        </div>
+
+        
+        <p class="toggle" onclick="toggleSection('uwc')">University of the Western Cape (UWC)</p>
+        <div class="section" id="uwc">
+            <img src="UWC.png" height="60px" width="140px" alt="UWC logo" />
+            <a href="https://apply.org.za/prospectuses/uwc/" target="_blank">CHECK PROSPECTUS</a>
+            <a href="https://student.uwc.ac.za/" target="_blank">APPLY</a>
+            <a href="https://student.uwc.ac.za/" target="_blank">CHECK STATUS</a>
+            <hr/>
+        </div>
+
+        
+		<p class="toggle" onclick="toggleSection('ufs')">University of the Free State (UFS)</p>
+		<div class="section" id="ufs">
+			<img src="UFS.jpg" height="60px" width="140px" alt="UFS logo" />
+			<a href="https://apply.org.za/prospectuses/ufs/" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://apply.ufs.ac.za/Application/Undergraduate" target="_blank">APPLY</a>
+			<a href="https://www.ufs.ac.za/kovsielife/login-page" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+		<p class="toggle" onclick="toggleSection('nwu')">North-West University (NWU)</p>
+		<div class="section" id="nwu">
+			<img src="NWU.webp" height="60px" width="140px" alt="NWU logo" />
+			<a href="https://studies.nwu.ac.za/undergraduate-studies/fields-study-2027" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://applynow.nwu.ac.za/OnlineApplication/" target="_blank">APPLY</a>
+			<a href="https://www.nwu.ac.za/user/login" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+
+		<p class="toggle" onclick="toggleSection('up')">University of Pretoria (UP) <i>(Only for applicants with household income below R150 000)</i></p>
+		<div class="section" id="up">
+			<img src="UP.webp" height="60px" width="140px" alt="UP logo" />
+			<a href="https://www.studentroom.co.za/download-university-of-pretoria-up-prospectus-2026-all-faculties/" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://www.up.ac.za" target="_blank">APPLY</a>
+			<a href="https://www1.up.ac.za/uplogin/faces/login.jspx" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+
+		<p class="toggle" onclick="toggleSection('univen')">University of Venda (UNIVEN)</p>
+		<div class="section" id="univen">
+			<img src="UNIVEN.webp" height="60px" width="140px" alt="UNIVEN logo" />
+			<a href="https://www.univen.ac.za/students/student-support-services/how-to-apply/prospectus/" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://www.univen.ac.za" target="_blank">APPLY</a>
+			<a href="https://admission.univen.ac.za/welcome" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+		<p class="toggle" onclick="toggleSection('cut')">Central University of Technology (CUT)</p>
+		<div class="section" id="cut">
+			<img src="CUT.webp" height="60px" width="140px" alt="CUT logo" />
+			<a href="https://www.cut.ac.za/programmes-offered#postgrad_programmes" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://www.cut.ac.za" target="_blank">APPLY</a>
+			<a href="https://enroll.cut.ac.za/pls/prodi41/w99pkg.mi_login" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+		<p class="toggle" onclick="toggleSection('cput')">Cape Peninsula University of Technology (CPUT)</p>
+		<div class="section" id="cput">
+			<img src="CPUT.webp" height="60px" width="140px" alt="CPUT logo" />
+			<a href="https://www.cput.ac.za/academic" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://www.cput.ac.za" target="_blank">APPLY</a>
+			<a href="https://www.cput.ac.za/study/track" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+
+		<p class="toggle" onclick="toggleSection('dut')">Durban University of Technology (DUT)</p>
+		<div class="section" id="dut">
+			<img src="DUT.webp" height="60px" width="140px" alt="DUT logo" />
+			<a href="https://apply.org.za/prospectuses/dut/" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://onlineapps.dut.ac.za/psc/psoapprd/EMPLOYEE/SA/c/VC_OA_LOGIN_MENU.VC_OA_LOGIN_FL.GBL?&" target="_blank">APPLY</a>
+			<a href="https://www.cao.ac.za/myapplicationlogin.aspx" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+
+		<p class="toggle" onclick="toggleSection('wsu')">Walter Sisulu University (WSU)</p>
+		<div class="section" id="wsu">
+			<img src="WSU.webp" height="60px" width="140px" alt="WSU logo" />
+			<a href="https://www.wsu.ac.za/index.php/en/study-with-us/2024-prospectuses?layout=table" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://applications.wsu.ac.za/" target="_blank">APPLY</a>
+			<a href="https://status.wsu.ac.za/status/statuscheck.php" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+		<p class="toggle" onclick="toggleSection('nmu')">Nelson Mandela University (NMU)</p>
+		<div class="section" id="nmu">
+			<img src="NMU.webp" height="60px" width="140px" alt="NMU logo" />
+			<a href="https://www.eafinder.com/za/nmu-prospectus/" target="_blank">CHECK PROSPECTUS</a>
+			<a href="https://apps.mandela.ac.za/e-portal/Profile/CreateProfile" target="_blank">APPLY</a>
+			<a href="https://itsweb.mandela.ac.za/pls/prodi41/w99pkg.mi_login" target="_blank">CHECK STATUS</a>
+		<hr/>
+		</div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 KAGISHO MOHLALA</p>
+    </footer>
+</body>
+</html>

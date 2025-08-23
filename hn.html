@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APS Calculator & Course Matcher</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 20px; padding: 10px 15px; }
+    #results { margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <h1>APS Calculator & Course Matcher</h1>
+
+  <form id="apsForm">
+    <label>English (%)</label>
+    <input type="number" id="english" min="0" max="100" required />
+
+    <label>Mathematics (%)</label>
+    <input type="number" id="maths" min="0" max="100" required />
+
+    <label>Life Orientation (%)</label>
+    <input type="number" id="lo" min="0" max="100" required />
+
+    <label>Physical Science (%)</label>
+    <input type="number" id="science" min="0" max="100" required />
+
+    <label>Life Sciences (%)</label>
+    <input type="number" id="life" min="0" max="100" required />
+
+    <label>Elective Subject (%)</label>
+    <input type="number" id="elective" min="0" max="100" required />
+
+    <button type="button" onclick="calculateAPS()">Calculate APS</button>
+  </form>
+
+  <div id="results"></div>
+
+  <script>
+    function convertToAPS(mark) {
+      if (mark >= 80) return 7;
+      if (mark >= 70) return 6;
+      if (mark >= 60) return 5;
+      if (mark >= 50) return 4;
+      if (mark >= 40) return 3;
+      if (mark >= 30) return 2;
+      if (mark >= 0) return 1;
+      return 0;
+    }
+
+    function calculateAPS() {
+      const subjects = ['english', 'maths', 'lo', 'science', 'life', 'elective'];
+      let totalAPS = 0;
+
+      subjects.forEach(id => {
+        const mark = parseInt(document.getElementById(id).value);
+        totalAPS += convertToAPS(mark);
+      });
+
+      let eligibleCourses = [];
+      if (totalAPS >= 35) {
+        eligibleCourses = ["Engineering", "Medicine", "Computer Science"];
+      } else if (totalAPS >= 28) {
+        eligibleCourses = ["Business Administration", "Education", "Social Work"];
+      } else if (totalAPS >= 20) {
+        eligibleCourses = ["Diploma in IT", "Diploma in Marketing"];
+      } else {
+        eligibleCourses = ["No qualifying courses based on current APS."];
+      }
+
+      document.getElementById('results').innerHTML = `
+        <h3>Your APS Score: ${totalAPS}</h3>
+        <h4>Eligible Courses:</h4>
+        <ul>${eligibleCourses.map(course => `<li>${course}</li>`).join('')}</ul>
+      `;
+    }
+  </script>
+</body>
+</html>

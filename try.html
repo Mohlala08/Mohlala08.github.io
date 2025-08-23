@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Eligibility Checker</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label, input { display: block; margin: 10px 0; }
+    #results { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>University Course Eligibility Checker</h1>
+
+  <label for="aps">Enter your APS score:</label>
+  <input type="number" id="aps" min="0" max="50" />
+
+  <button onclick="checkEligibility()">Check Courses</button>
+
+  <div id="results"></div>
+
+  <script>
+    function checkEligibility() {
+      const aps = parseInt(document.getElementById('aps').value);
+      const resultsDiv = document.getElementById('results');
+      let eligibleCourses = [];
+
+      if (aps >= 35) {
+        eligibleCourses.push("Engineering", "Computer Science", "Medicine");
+      } else if (aps >= 28) {
+        eligibleCourses.push("Business Administration", "Education", "Social Work");
+      } else if (aps >= 20) {
+        eligibleCourses.push("Diploma in IT", "Diploma in Marketing");
+      } else {
+        eligibleCourses.push("Unfortunately, no courses match your score.");
+      }
+
+      resultsDiv.innerHTML = `<h3>Eligible Courses:</h3><ul>${eligibleCourses.map(course => `<li>${course}</li>`).join('')}</ul>`;
+    }
+  </script>
+</body>
+</html>
