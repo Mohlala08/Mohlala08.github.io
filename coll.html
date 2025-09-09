@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>South African Public TVET Colleges</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #004080;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .college-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .college-card h3 {
+      margin: 0;
+      color: #004080;
+    }
+    .college-card p {
+      margin: 0.3rem 0;
+    }
+    .college-card a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #004080;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .college-card a:hover {
+      background: #0066cc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>South African Public TVET Colleges</h1>
+    <p>Search and explore colleges where you can apply</p>
+  </header>
+
+  <div class="container">
+    <input type="text" id="collegeSearch" placeholder="Search for a college by name or province...">
+    <div id="collegeList"></div>
+  </div>
+
+  <script>
+    // Full list of 50 TVET Colleges in South Africa
+    const colleges = [
+      { name: "Boland TVET College", province: "Western Cape", website: "https://www.bolandcollege.com" },
+      { name: "Buffalo City TVET College", province: "Eastern Cape", website: "https://bccollege.co.za" },
+      { name: "Capricorn TVET College", province: "Limpopo", website: "https://capricorncollege.edu.za" },
+      { name: "Central Johannesburg TVET College", province: "Gauteng", website: "https://cjc.edu.za" },
+      { name: "Coastal TVET College", province: "KwaZulu-Natal", website: "https://coastalkzn.co.za" },
+      { name: "College of Cape Town for TVET", province: "Western Cape", website: "https://cct.edu.za" },
+      { name: "Eastcape Midlands TVET College", province: "Eastern Cape", website: "https://emcol.co.za" },
+      { name: "Ehlanzeni TVET College", province: "Mpumalanga", website: "https://ehlanzenicollege.co.za" },
+      { name: "Ekurhuleni East TVET College", province: "Gauteng", website: "https://eec.edu.za" },
+      { name: "Ekurhuleni West TVET College", province: "Gauteng", website: "https://ewc.edu.za" },
+      { name: "Elangeni TVET College", province: "KwaZulu-Natal", website: "https://elangeni.edu.za" },
+      { name: "Esayidi TVET College", province: "KwaZulu-Natal", website: "https://esayidi.edu.za" },
+      { name: "False Bay TVET College", province: "Western Cape", website: "https://falsebaycollege.co.za" },
+      { name: "Flavius Mareka TVET College", province: "Free State", website: "https://flaviusmareka.net" },
+      { name: "Gert Sibande TVET College", province: "Mpumalanga", website: "https://gscollege.edu.za" },
+      { name: "Goldfields TVET College", province: "Free State", website: "https://goldfieldstvet.edu.za" },
+      { name: "Ikhala TVET College", province: "Eastern Cape", website: "https://ikhala.edu.za" },
+      { name: "Ingwe TVET College", province: "Eastern Cape", website: "https://ingwecollege.edu.za" },
+      { name: "King Hintsa TVET College", province: "Eastern Cape", website: "https://kinghintsacollege.edu.za" },
+      { name: "King Sabata Dalindyebo TVET College", province: "Eastern Cape", website: "https://ksdcollege.edu.za" },
+      { name: "Lephalale TVET College", province: "Limpopo", website: "https://leptvetcol.edu.za" },
+      { name: "Letaba TVET College", province: "Limpopo", website: "https://letcol.co.za" },
+      { name: "Lovedale TVET College", province: "Eastern Cape", website: "https://lovedale.edu.za" },
+      { name: "Majuba TVET College", province: "KwaZulu-Natal", website: "https://majuba.edu.za" },
+      { name: "Maluti TVET College", province: "Free State", website: "https://malutitvet.co.za" },
+      { name: "Mnambithi TVET College", province: "KwaZulu-Natal", website: "https://mnambithicollege.co.za" },
+      { name: "Mopani South TVET College", province: "Limpopo", website: "https://mscollege.edu.za" },
+      { name: "Motheo TVET College", province: "Free State", website: "https://motvet.edu.za" },
+      { name: "Mthashana TVET College", province: "KwaZulu-Natal", website: "https://mthashanacollege.co.za" },
+      { name: "Nkangala TVET College", province: "Mpumalanga", website: "https://nkangalatvet.edu.za" },
+      { name: "Northern Cape Rural TVET College", province: "Northern Cape", website: "https://ncrtvet.com" },
+      { name: "Northern Cape Urban TVET College", province: "Northern Cape", website: "https://ncutvet.edu.za" },
+      { name: "Northlink TVET College", province: "Western Cape", website: "https://northlink.co.za" },
+      { name: "Orbit TVET College", province: "North West", website: "https://orbitcollege.co.za" },
+      { name: "Port Elizabeth TVET College", province: "Eastern Cape", website: "https://pecollege.edu.za" },
+      { name: "Sedibeng TVET College", province: "Gauteng", website: "https://sedcol.co.za" },
+      { name: "Sekhukhune TVET College", province: "Limpopo", website: "https://sekfetcollege.edu.za" },
+      { name: "South Cape TVET College", province: "Western Cape", website: "https://sccollege.co.za" },
+      { name: "South West Gauteng TVET College", province: "Gauteng", website: "https://swgc.co.za" },
+      { name: "Taletso TVET College", province: "North West", website: "https://taletso.edu.za" },
+      { name: "Thekwini TVET College", province: "KwaZulu-Natal", website: "https://thekwini.edu.za" },
+      { name: "Tshwane North TVET College", province: "Gauteng", website: "https://tnc.edu.za" },
+      { name: "Tshwane South TVET College", province: "Gauteng", website: "https://tsc.edu.za" },
+      { name: "Umfolozi TVET College", province: "KwaZulu-Natal", website: "https://umfolozicollege.co.za" },
+      { name: "Umgungundlovu TVET College", province: "KwaZulu-Natal", website: "https://umgungundlovu.edu.za" },
+      { name: "Vhembe TVET College", province: "Limpopo", website: "https://vhembecollege.edu.za" },
+      { name: "Vuselela TVET College", province: "North West", website: "https://vuselelacollege.co.za" },
+      { name: "Waterberg TVET College", province: "Limpopo", website: "https://waterbergcollege.co.za" },
+      { name: "West Coast TVET College", province: "Western Cape", website: "https://westcoastcollege.co.za" },
+      { name: "Western College for TVET (Westcol)", province: "Gauteng", website: "https://westcol.co.za" }
+    ];
+
+    function renderColleges(list) {
+      const container = document.getElementById('collegeList');
+      container.innerHTML = "";
+      if (list.length === 0) {
+        container.innerHTML = "<p>No colleges found.</p>";
+        return;
+      }
+      list.forEach(college => {
+        const card = document.createElement("div");
+        card.className = "college-card";
+        card.innerHTML = `
+          <h3>${college.name}</h3>
+          <p><strong>Province:</strong> ${college.province}</p>
+          <a href="${college.website}" target="_blank">Visit Website</a>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function searchColleges() {
+      const searchTerm = document.getElementById("collegeSearch").value.toLowerCase();
+      const filtered = colleges.filter(college =>
+        college.name.toLowerCase().includes(searchTerm) ||
+        college.province.toLowerCase().includes(searchTerm)
+      );
+      renderColleges(filtered);
+    }
+
+    document.getElementById("collegeSearch").addEventListener("input", searchColleges);
+
+    window.onload = () => renderColleges(colleges);
+  </script>
+</body>
+</html>

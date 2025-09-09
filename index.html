@@ -1,262 +1,676 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset = "utf-8">
-		<meta name = "description" content = "apply Universities,Universities,apply,kagisho unis">
-		<title>Elevate Your University Prep</title>
-		<style>
-		body {
-            background-color: #ffe6f0;
-            font-family: Arial, sans-serif;
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="South African University Application Prep and APS Calculator.">
+    <title>Elevate Your University Prep</title>
+    <style>
+        :root {
+            /* Brighter, more attractive color palette */
+            --primary-blue: #007bff; /* A vibrant, classic blue */
+            --primary-blue-light: #66b5ff;
+            --accent-green: #28a745; /* A bright, cheerful green */
+            --accent-green-light: #30c952;
+            --accent-orange: #ff7f00; /* An energetic orange */
+            --accent-orange-light: #ff9d40;
+            --background-light: #f7fafc;
+            --text-dark: #2d3748;
+            --text-light: #a0aec0;
+            --card-bg: #fff;
+            --footer-bg: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 800px;
-            margin: auto;
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-         h2{
+        header {
             text-align: center;
-            color: #d63384;
+            margin-bottom: 30px;
         }
 
-        p {
+        h1 {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        nav {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            position: relative; /* needed so mobile dropdown can be positioned */
+        }
+
+        /* New: nav-links wrapper (keeps your original search-box + location together) */
+        .nav-links {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .location{
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        #universitySearch {
+            width: 100%;
+            padding: 12px 40px 12px 20px;
+            border: 2px solid #ced4da;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #universitySearch:focus {
+            outline: none;
+            border-color: var(--primary-blue-light);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.25);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
             font-weight: bold;
-            margin-top: 30px;
-            color: #333;
+            font-size: 1rem;
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
         }
 
-        i {
-            font-weight: normal;
-            color: #555;
+        .btn-link:hover {
+            background: var(--accent-green-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
-        img {
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .universities-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            flex: 1;
+        }
+
+        .university-box {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .university-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .university-box p.university-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .university-box i.university-note {
             display: block;
-            margin: 10px 0;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .university-box img {
+            height: 60px;
+            width: 140px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
 
-        a {
+        .university-box .link-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .university-box a {
             display: inline-block;
-            margin: 5px 10px 5px 0;
+            padding: 8px 16px;
+            border-radius: 10px;
             text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
+            color: #fff;
+            font-weight: 500;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
         }
 
-        a:hover {
-            text-decoration: underline;
+        .university-box a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
-        hr {
-            margin: 30px 0;
-            border: none;
-            border-top: 1px solid #ccc;
+        .university-box a.prospectus-link {
+            background-color: var(--primary-blue);
         }
 
-        footer {
+        .university-box a.prospectus-link:hover {
+            background-color: var(--primary-blue-light);
+        }
+
+        .university-box a.apply-link {
+            background-color: var(--accent-green);
+        }
+
+        .university-box a.apply-link:hover {
+            background-color: var(--accent-green-light);
+        }
+
+        .university-box a.status-link {
+            background-color: var(--text-light);
+        }
+
+        .university-box a.status-link:hover {
+            background-color: #718096;
+        }
+
+        /* APS Calculator Styles */
+        aside {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        aside h3 {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
             text-align: center;
-            background-color: #87ceeb;
-            padding: 10px;
-            margin-top: 40px;
         }
-		.btn-link {
-        display: inline-block;
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 6px;
-        font-weight: bold;
-        text-decoration: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        transition: background-color 0.3s ease;
-    }
+        
+        aside p.note {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    .btn-link:hover {
-        background-color: #0056b3;
-    }		
-		
-		</style>
-	</head>
-	<body>
-		 <div class="container">
-		<h4>South African Universities</h4>
-		<nav>
-			<a href = "./EvaluateUniPrep.html" target = "_blank" class="btn-link">CLICK HERE FOR UNIVERSITIES WITH NO APPLICATIONS FEE</a>
-		</nav>
-		
-		<p></p>
-				
-		<p>1.University of Johannesburg(UJ)</p>
-		<img src = "./uj.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://prepforuni.com/university-of-johannesburg-uj-prospectus-download-pdf/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.uj.ac.za/admissions-aid/" target = "_blank">APPLY</a>
-		<a href = "https://registration.uj.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>2.University of the Western Cape(UWC)</p>
-		<img src = "./UWC.png" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://apply.org.za/prospectuses/uwc/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://student.uwc.ac.za/" target = "_blank">APPLY</a>
-		<a href = "https://student.uwc.ac.za/" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>3.University of the Free State(UFS)</p>
-		<img src = "./UFS.jpg" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://apply.org.za/prospectuses/ufs/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://apply.ufs.ac.za/Application/Undergraduate" target = "_blank">APPLY</a>
-		<a href = "https://www.ufs.ac.za/kovsielife/login-page" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>4.North-West University(NWU)</p>
-		<img src = "./NWU.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://studies.nwu.ac.za/undergraduate-studies/fields-study-2027" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://applynow.nwu.ac.za/OnlineApplication/" target = "_blank">APPLY</a>
-		<a href = "https://www.nwu.ac.za/user/login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>5.University of Pretoria(UP)<i>(only for applicants with a house hold income below R150 000)</i></p>
-		<img src = "./UP.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.studentroom.co.za/download-university-of-pretoria-up-prospectus-2026-all-faculties/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.up.ac.za/online-application/article/3297780/apply-online" target = "_blank">APPLY</a>
-		<a href = "https://www1.up.ac.za/uplogin/faces/login.jspx?bmctx=021843C5099ED188C20F16CEC40FB9E3&contextType=external&username=string&password=secure_string&challenge_url=https%3A%2F%2Fwww1.up.ac.za%2Fuplogin%2Ffaces%2Flogin.jspx&request_id=-4332687068481957633&authn_try_count=0&locale=en_GB&resource_url=%252Fuser%252Floginsso" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>6.University of Venda(UNIVEN)</p>
-		<img src = "./UNIVEN.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.univen.ac.za/students/student-support-services/how-to-apply/prospectus/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.univen.ac.za/apply/" target = "_blank">APPLY</a>
-		<a href = "https://admission.univen.ac.za/welcome" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>7.Central University of Technology(CUT)</p>
-		<img src = "./CUT.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.cut.ac.za/programmes-offered#postgrad_programmes" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.cut.ac.za/" target = "_blank">APPLY</a>
-		<a href = "https://enroll.cut.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>8.Cape Peninsula University of Technology(CPUT)</p>
-		<img src = "./CPUT.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.cput.ac.za/academic" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.cput.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://www.cput.ac.za/study/track" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>9.Durban University of Technology(DUT)</p>
-		<img src = "./DUT.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://apply.org.za/prospectuses/dut/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://onlineapps.dut.ac.za/psc/psoapprd/EMPLOYEE/SA/c/VC_OA_LOGIN_MENU.VC_OA_LOGIN_FL.GBL?&" target = "_blank">APPLY</a>
-		<a href = "https://www.cao.ac.za/myapplicationlogin.aspx" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>10.Walter Sisulu University(WSU)</p>
-		<img src = "./WSU.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.wsu.ac.za/index.php/en/study-with-us/2024-prospectuses?layout=table" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://applications.wsu.ac.za/" target = "_blank">APPLY</a>
-		<a href = "https://status.wsu.ac.za/status/statuscheck.php" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>11.Nelson Mandela University(NMU)</p>
-		<img src = "./NMU.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.eafinder.com/za/nmu-prospectus/#:~:text=We%20are%20pleased%20to%20present%20to%20you%20the,is%20available%20at%20the%20diploma%20%26%20undergraduate%20level." target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://apps.mandela.ac.za/e-portal/Profile/CreateProfile" target = "_blank">APPLY</a>
-		<a href = "https://itsweb.mandela.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>12.University of Limpopo(UL)</p>
-		<img src = "./UL.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.studentroom.co.za/download-the-university-of-limpopo-ul-2026-prospectus-now-available-online/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.ul.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://ulc-prod-webserver.ul.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>13.Tshwane University of Technology(TUT)</p>
-		<img src = "./TUT.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.bing.com/ck/a?!&&p=0d256f13c16d030dae73128f193a82bd3ce6d6caef2a927354d88f2189301e8fJmltdHM9MTc1MzU3NDQwMA&ptn=3&ver=2&hsh=4&fclid=33710c5d-e63c-651b-3d3e-19f9e7f5648b&psq=tut+prospectus+2025&u=a1aHR0cHM6Ly93d3cudHV0LmFjLnphL2ltYWdlcy9wcm9zcGVjdHVzL1BhcnQ0X0ZFQkVfUHJvc3BlY3R1c18yMDI1LnBkZg&ntb=1" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://applications-prod.tut.ac.za/" target = "_blank">APPLY</a>
-		<a href = "https://ienabler.tut.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>14.University of Mpumalanga(UMP)</p>
-		<img src = "./UMP.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://prepforuni.com/university-of-mpumalanga-ump-prospectus-download-pdf/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.ump.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://ienabler.ump.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>15.Mangosuthu University of Technology(MUT)</p>
-		<img src = "./MUT.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.mut.ac.za/prospective-students/apply/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.mut.ac.za/" target = "_blank">APPLY</a>
-		<a href = "https://ienabler1.mut.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>16.Vaal University of Technology(VUT)</p>
-		<img src = "./VUT.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.bing.com/ck/a?!&&p=82691b713ef24c351d5d9b4fb43c2267da73a71c1f8bebf36ccadceb173e8070JmltdHM9MTc1MzU3NDQwMA&ptn=3&ver=2&hsh=4&fclid=33710c5d-e63c-651b-3d3e-19f9e7f5648b&psq=vaal+university+of+technology+prospectus&u=a1aHR0cHM6Ly9hc3NldHMuYXBwbHkub3JnLnphL3UtZmlsZXMvUHJvc3BlY3R1c2VzL1ZVVDIwMjYucGRm&ntb=1" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://applications-prod.vut.ac.za/" target = "_blank">APPLY</a>
-		<a href = "https://ienablerprod.vut.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>17.Sol Plaatje University(SPU)</p>
-		<img src = "./SPU.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://indd.adobe.com/view/1970b71f-6d9b-4bea-a689-0209eef8e6ff" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://applications-prod.spu.ac.za/" target = "_blank">APPLY</a>
-		<a href = "https://ienabler.spu.ac.za/pls/prodi41/w99pkg.mi_login?numtype=S" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>18.University of Zululand(UniZulu)</p>
-		<img src = "./UNIZULU.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.bing.com/ck/a?!&&p=367360f5dc1c41668ba0c81a61699cf9ff03729da7a6974ddfed1c2cdac783b0JmltdHM9MTc1MzU3NDQwMA&ptn=3&ver=2&hsh=4&fclid=33710c5d-e63c-651b-3d3e-19f9e7f5648b&psq=university+of+zululand+prospectus&u=a1aHR0cHM6Ly93d3cudW5penVsdS5hYy56YS93cC1jb250ZW50L3VwbG9hZHMvMjAyNC8wNi9JTkZPUk1BVElPTi1CUk9DSFVSRS1GT1ItVU5ERVJHUkFEVUFURS1TVFVERU5UUy5wZGY&ntb=1" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.unizulu.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://jasper.unizulu.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>19.University of the Witwatersrand(WITS)</p>
-		<img src = "./WITS.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.bing.com/ck/a?!&&p=42b2f1f4c6ed3d70faf75f029010c732340ff0981a7e34a315b68ee41f2289c6JmltdHM9MTc1MzU3NDQwMA&ptn=3&ver=2&hsh=4&fclid=33710c5d-e63c-651b-3d3e-19f9e7f5648b&psq=wits+prospectus+2026&u=a1aHR0cHM6Ly93d3cud2l0cy5hYy56YS9tZWRpYS93aXRzLXVuaXZlcnNpdHkvc3R1ZHkvc2Nob29scy1saWFzb24vZG9jdW1lbnRzL1dpdHMlMjBTTE8lMjBHcmFkZSUyMDEyXzEwMDEyNS5wZGY&ntb=1" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.wits.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://self-service.wits.ac.za/psp/csprod/UW_SELF_SERVICE/HRMS/?&cmd=login&languageCd=ENG" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>20.Stellenbosch University(SU)</p>
-		<img src = "./SU.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.sun.ac.za/english/maties/admissions/requirements" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.su.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://student.sun.ac.za/applicant-portal/#/auth/login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>21.Rhodes University(RU)</p>
-		<img src = "./RO.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://apply.org.za/prospectuses/ru/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.ru.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://ross.ru.ac.za/" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>22.Sefako Makgatho Health Sciences University(SMU)</p>
-		<img src = "./SMU.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.smu.ac.za/3d-flip-book/smu-prospectus-2025_2026/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.smu.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://lifestudent.smu.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>23.University of KwaZulu-Natal(UKZN)</p>
-		<img src = "./UKZN.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://ww1.applications.ukzn.ac.za/prospectus/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.ukzn.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://erpweb.ukzn.ac.za/pls/ukznint/w99pkg.mi_login?numtype=P" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>24.University of Fort Hare(UFH)</p>
-		<img src = "./UFH.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://prepforuni.com/university-of-fort-hare-prospectus-download-pdf/" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.ufh.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://ienabler.ufh.ac.za/pls/prodi41/w99pkg.mi_login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>25.University of Cape Town(UCT)</p>
-		<img src = "./UCT.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.bing.com/ck/a?!&&p=776990cb412069c6dc001dd3c279d6d3aa89fa2ccc276c96df42840b0749358aJmltdHM9MTc1MzU3NDQwMA&ptn=3&ver=2&hsh=4&fclid=33710c5d-e63c-651b-3d3e-19f9e7f5648b&psq=uct+prospectus+2026&u=a1aHR0cHM6Ly93d3cudWN0LmFjLnphL3NpdGVzL2RlZmF1bHQvZmlsZXMvbWVkaWEvZG9jdW1lbnRzL3VjdF9hY196YS80OS91Zy1wcm9zcGVjdHVzLTIwMjYucGRm&ntb=1" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.uct.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://studentsonline.uct.ac.za/psp/students/?cmd=login" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		<p>26.University of South Africa(UNISA)</p>
-		<img src = "./UNISA.webp" height = "60px" width = "140px" alt = "images not visible"/>
-		<a href = "https://www.unisa.ac.za/sites/corporate/default/Apply-for-admission/Undergraduate-qualifications/Qualifications/All-qualifications" target = "_blank">CHECK PROSPECTUS</a>
-		<a href = "https://www.unisa.ac.za" target = "_blank">APPLY</a>
-		<a href = "https://www.unisa.ac.za/sites/corporate/default/Apply-for-admission/Apply-for-admission-to-study:-application-tool" target = "_blank">CHECK STATUS</a>
-		<hr/>
-		
-		</div>
-	<footer style = "background-color:skyblue">
-		<p></p>
-		
-		
-	<p>&copy; 2025 KAGISHO MOHLALA</p>
-	</footer>
-		
-	</body>
+        #smartApsInputs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .subject-block {
+            display: flex;
+            gap: 10px;
+        }
+
+        .subject-block select,
+        .subject-block input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .subject-block select:focus,
+        .subject-block input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-blue-light);
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.25);
+        }
+
+        button.calculate-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background-color: var(--accent-orange);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            margin-top: 20px;
+        }
+
+        button.calculate-btn:hover {
+            background-color: var(--accent-orange-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #smartApsResult {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--background-light);
+            border: 1px solid var(--primary-blue-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #smartApsResult strong {
+            color: var(--primary-blue);
+        }
+        
+        #disclaimer {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 1px solid #cbd5e0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                flex-direction: row-reverse;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+            
+            aside {
+                position: sticky;
+                top: 20px;
+                max-width: 350px;
+            }
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            border-radius: 6px;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 3px;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+
+      
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 0;
+                width: 100%;
+                background: var(--card-bg);
+                padding: 12px;
+                gap: 12px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+                border-radius: 8px;
+                z-index: 40;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links .search-box {
+                max-width: 100%;
+                padding: 0 6px;
+            }
+
+            .nav-links .location {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+
+            .nav-links .btn-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Elevate Your University Prep</h1>
+            <nav>
+                <!-- NEW: hamburger button for small screens -->
+                <div class="hamburger" id="hamburger" role="button" aria-label="Open navigation" aria-expanded="false" tabindex="0">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <!-- NEW: nav-links wrapper keeps your original content intact -->
+                <div class="nav-links" id="navLinks">
+                    <div class="search-box">
+                        <input type="text" id="universitySearch" placeholder="Search universities or faculties...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div class="location">
+                        <a href="./EvaluateUniPrep.html"  class="btn-link">UNIVERSITIES WITH NO APPLICATION FEE</a>
+                        <a href="https://my.nsfas.org.za/"  class="btn-link">VISIT/APPLY NSFAS</a>
+                        <a href="./coll.html" class="btn-link">SOUTH AFRICAN PUBLIC TVET COLLEGES</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="main-content">
+            <aside>
+                <h3>🎯 Smart APS & Faculty Match🎓</h3>
+                <p class="note">Enter your marks for your subjects. Your APS score will be calculated based on your <strong>best 6 subjects</strong>, excluding Life Orientation.</p>
+                <div id="smartApsInputs">
+                    
+                </div>
+                <br>
+                <button class="calculate-btn" onclick="calculateAPS()">Calculate APS & Match</button>
+                <div id="smartApsResult"></div>
+                <p id="disclaimer">
+                    This is a simplified guidance tool. You must always confirm the most accurate and up-to-date requirements on the official university website.
+                </p>
+            </aside>
+
+            <div class="universities-list" id="universitiesList">
+                
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 KAGISHO MOHLALA. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+      
+        const allSubjects = [
+            "Mathematics", "Mathematical Literacy", "Physical Sciences", "Life Sciences", "Accounting", "Business Studies", "Economics",
+            "Geography", "History", "English", "Afrikaans", "IsiZulu", "IsiXhosa", "Sepedi", "Setswana", "Sesotho", "Xitsonga", "Tshivenda", "Ndebele",
+            "Life Orientation", "Computer Applications Technology", "Information Technology", "Tourism", "Consumer Studies", "Visual Arts", "Music", 
+            "Dramatic Arts", "Engineering Graphics & Design", "Agricultural Sciences", "Religion Studies", "Technical Mathematics", "Technical Sciences", 
+            "Hospitality Studies", "Civil Technology", "Electrical Technology", "Mechanical Technology"
+        ];
+        
+        // This array has been updated to include a broader range of universities
+        const facultyRequirements = [
+            { name: "Faculty of Science in Engineering", minAPS: 42, reqs: [{ subject: "Mathematics", minMark: 80 }, { subject: "Physical Sciences", minMark: 80 }, { subject: "English", minMark: 70 }], universities: ["WITS", "UCT", "UP", "SU", "UKZN", "NMU"] },
+            { name: "Faculty of Engineering", minAPS: 38, reqs: [{ subject: "Mathematics", minMark: 75 }, { subject: "Physical Sciences", minMark: 70 }], universities: ["NWU", "UFS"] },
+            { name: "Faculty of Engineering Technology", minAPS: 35, reqs: [{ subject: "Mathematics", minMark: 60 }, { subject: "Physical Sciences", minMark: 60 }], universities: ["CPUT", "CUT", "TUT", "VUT", "MUT", "DUT"] },
+            { name: "Faculty of Medicine & Surgery", minAPS: 45, reqs: [{ subject: "Life Sciences", minMark: 80 }, { subject: "Physical Sciences", minMark: 80 }, { subject: "Mathematics", minMark: 80 }], universities: ["UCT", "WITS", "UP", "UKZN", "SU", "SMU", "SBU"] },
+            { name: "Faculty of Health Sciences", minAPS: 34, reqs: [{ subject: "Mathematics", minMark: 60 }, { subject: "Life Sciences", minMark: 65 }, { subject: "Physical Sciences", minMark: 60 }], universities: ["NWU", "UFS", "UFH", "UL"] },
+            { name: "Faculty of Commerce in Accounting", minAPS: 40, reqs: [{ subject: "Mathematics", minMark: 70 }, { subject: "Accounting", minMark: 60 }], universities: ["WITS", "UP", "UJ", "UCT", "SU", "NMU"] },
+            { name: "Faculty of Arts in Law", minAPS: 34, reqs: [{ subject: "English", minMark: 60 }], universities: ["UJ", "RU", "UWC", "UP", "NMU", "UNISA", "UFH"] },
+            { name: "Faculty of Education", minAPS: 28, reqs: [{ subject: "English", minMark: 50 }, { subject: "Life Sciences", minMark: 50 }], universities: ["UJ", "NWU", "UFS", "TUT", "UFH", "UNIZULU", "UL"] },
+            { name: "Faculty of Science in IT & Computer Science", minAPS: 32, reqs: [{ subject: "Mathematics", minMark: 65 }], universities: ["UP", "WITS", "UNISA", "CPUT", "CUT", "NMU", "SBU"] },
+            { name: "Faculty of Arts in Social Sciences", minAPS: 25, reqs: [{ subject: "English", minMark: 50 }], universities: ["UP", "UJ", "UFS", "RU", "UNISA", "UFH", "UNIVEN", "WSU", "UMP"] },
+            { name: "General/Bridging Studies", minAPS: 20, reqs: [], universities: ["WSU", "DUT", "UNIVEN", "UMP", "VUT", "MUT", "UFH", "UNIZULU", "UL"] }
+        ];
+
+        // This array now contains all 26 public universities in South Africa
+        const universities = [
+            { name: "University of Cape Town", shortName: "UCT", note: null, logo: "UCT.webp", prospectusUrl: "https://www.uct.ac.za/sites/default/files/media/documents/uct_ac_za/49/ug-prospectus-2025.pdf", applyUrl: "https://publicaccess.uct.ac.za/psc/public/EMPLOYEE/SA/c/UCT_PUBLIC_MENU.UCT_ONL_HOME_FL.GBL?PAGE=UCT_ONL_ACC_FL", statusUrl: "https://studentsonline.uct.ac.za/psp/students/?cmd=login" },
+            { name: "Stellenbosch University", shortName: "SU", note: null, logo: "SU.webp", prospectusUrl: "http://www0.sun.ac.za/prospectus/2025/undergraduate/index.html", applyUrl: "https://www.sun.ac.za/english/maties/apply", statusUrl: "https://student.sun.ac.za/" },
+            { name: "University of the Witwatersrand", shortName: "WITS", note: null, logo: "WITS.webp", prospectusUrl: "https://www.wits.ac.za/study-at-wits/undergraduate/", applyUrl: "https://self-service.wits.ac.za/psc/csprodonl/UW_SELF_SERVICE/SA/c/VC_OA_LOGIN_MENU.VC_OA_LOGIN_FL.GBL?&", statusUrl: "https://self-service.wits.ac.za/psp/csprod/UW_SELF_SERVICE/HRMS/?&cmd=login&languageCd=ENG" },
+            { name: "University of Pretoria", shortName: "UP", note: null, logo: "UP.webp", prospectusUrl: "https://www.up.ac.za/programmes/2025/undergraduate", applyUrl: "https://upnet.up.ac.za/psc/upapply/EMPLOYEE/SA/c/UP_OAP_MENU.UP_OAP_LOGIN_FL.GBL?&", statusUrl: "https://www1.up.ac.za/uplogin/faces/login.jspx" },
+            { name: "University of KwaZulu-Natal", shortName: "UKZN", note: null, logo: "UKZN.webp", prospectusUrl: "https://caes.ukzn.ac.za/study/undergraduate-prospectus/", applyUrl: "https://applications.ukzn.ac.za/ApplicationLogin.aspx", statusUrl: "https://applications.ukzn.ac.za/ApplicationStatus.aspx" },
+            { name: "University of Johannesburg", shortName: "UJ", note: null, logo: "UJ.webp", prospectusUrl: "https://www.uj.ac.za/admissions-aid/", applyUrl: "https://www.uj.ac.za/admissions-aid/", statusUrl: "https://registration.uj.ac.za/pls/prodi41/w99pkg.mi_login" },
+            { name: "Rhodes University", shortName: "RU", note: null, logo: "RU.webp", prospectusUrl: "https://www.ru.ac.za/admissiongateway/admission/rhodesprospectus/", applyUrl: "https://ross.ru.ac.za/unauth-login/login", statusUrl: "https://www.ru.ac.za/admissiongateway/admission/applicationstatus/" },
+            { name: "University of the Western Cape", shortName: "UWC", note: null, logo: "UWC.png", prospectusUrl: "https://www.uwc.ac.za/study/undergraduate/prospectus", applyUrl: "https://student.uwc.ac.za/", statusUrl: "https://student.uwc.ac.za/" },
+            { name: "Nelson Mandela University", shortName: "NMU", note: null, logo: "NMU.webp", prospectusUrl: "https://www.mandela.ac.za/study-at-nmu/apply/undergraduate-prospectus", applyUrl: "https://www.mandela.ac.za/study-at-nmu/apply", statusUrl: "https://www.mandela.ac.za/study-at-nmu/apply/application-status" },
+            { name: "University of the Free State", shortName: "UFS", note: null, logo: "UFS.jpg", prospectusUrl: "https://www.ufs.ac.za/prospective-students/undergraduate", applyUrl: "https://www.ufs.ac.za/apply", statusUrl: "https://www.ufs.ac.za/status" },
+            { name: "North-West University", shortName: "NWU", note: null, logo: "NWU.webp", prospectusUrl: "https://studies.nwu.ac.za/undergraduate-studies/fields-study-2027", applyUrl: "https://applynow.nwu.ac.za/OnlineApplication/", statusUrl: "https://www.nwu.ac.za/user/login" },
+            { name: "University of South Africa", shortName: "UNISA", note: null, logo: "UNISA.webp", prospectusUrl: "https://www.unisa.ac.za/sites/corporate/default/Apply-for-admission/Undergraduate-qualifications/Qualifications/All-qualifications", applyUrl: "https://www.unisa.ac.za/sites/corporate/default/Apply-for-admission/Apply-for-admission-to-study:-application-tool", statusUrl: "https://www.unisa.ac.za/sites/corporate/default/Apply-for-admission/Apply-for-admission-to-study:-application-tool" },
+            { name: "University of Fort Hare", shortName: "UFH", note: null, logo: "UFH.webp", prospectusUrl: "https://www.ufh.ac.za/apply-now/downloads", applyUrl: "https://www.ufh.ac.za/apply-now/apply", statusUrl: "https://www.ufh.ac.za/application-status" },
+            { name: "University of Zululand", shortName: "UNIZULU", note: null, logo: "UNIZULU.webp", prospectusUrl: "https://www.unizulu.ac.za/prospectus/", applyUrl: "https://www.unizulu.ac.za/apply/", statusUrl: "https://www.unizulu.ac.za/apply/" },
+            { name: "University of Limpopo", shortName: "UL", note: null, logo: "UL.webp", prospectusUrl: "https://www.ul.ac.za/apply/", applyUrl: "https://ulc-prod-webserver.ul.ac.za/pls/prodi41/gen.gw1pkg.gw1view", statusUrl: "https://ulc-prod-webserver.ul.ac.za/pls/prodi41/w99pkg.mi_login" },
+            { name: "Mangosuthu University of Technology", shortName: "MUT", note: null, logo: "MUT.webp", prospectusUrl: "https://www.mut.ac.za/academic-programmes/", applyUrl: "https://www.mut.ac.za/online-application-2024/", statusUrl: "https://www.mut.ac.za/check-application-status/" },
+            { name: "Durban University of Technology", shortName: "DUT", note: null, logo: "DUT.webp", prospectusUrl: "https://www.dut.ac.za/prospectus/", applyUrl: "https://onlineapps.dut.ac.za/psc/psoapprd/EMPLOYEE/SA/c/VC_OA_LOGIN_MENU.VC_OA_LOGIN_FL.GBL?&", statusUrl: "https://www.cao.ac.za/myapplicationlogin.aspx" },
+            { name: "Central University of Technology", shortName: "CUT", note: null, logo: "CUT.webp", prospectusUrl: "https://www.cut.ac.za/programmes-offered", applyUrl: "https://enroll.cut.ac.za/pls/prodi41/gen.gw1pkg.gw1view", statusUrl: "https://enroll.cut.ac.za/pls/prodi41/w99pkg.mi_login" },
+            { name: "Tshwane University of Technology", shortName: "TUT", note: null, logo: "TUT.webp", prospectusUrl: "https://www.tut.ac.za/study-at-tut/prospectus", applyUrl: "https://applications-prod.tut.ac.za/", statusUrl: "https://ienabler.tut.ac.za/pls/prodi41/w99pkg.mi_login" },
+            { name: "Cape Peninsula University of Technology", shortName: "CPUT", note: null, logo: "CPUT.webp", prospectusUrl: "https://www.cput.ac.za/academic", applyUrl: "https://applyuni.co.za/cape-peninsula-university-of-technology-online-application-form/", statusUrl: "https://www.cput.ac.za/study/track" },
+            { name: "Vaal University of Technology", shortName: "VUT", note: null, logo: "VUT.webp", prospectusUrl: "https://www.vut.ac.za/faculties/", applyUrl: "https://www.vut.ac.za/online-application/", statusUrl: "https://www.vut.ac.za/application-status/" },
+            { name: "Walter Sisulu University", shortName: "WSU", note: null, logo: "WSU.webp", prospectusUrl: "https://www.wsu.ac.za/programmes/", applyUrl: "https://online.wsu.ac.za/pls/prodi41/w99pkg.mi_login", statusUrl: "https://www.wsu.ac.za/study-at-wsu/application-status" },
+            { name: "Sefako Makgatho Health Sciences University", shortName: "SMU", note: null, logo: "SMU.webp", prospectusUrl: "https://www.smu.ac.za/prospectus/", applyUrl: "https://www.smu.ac.za/study-at-smu/apply/", statusUrl: "https://www.smu.ac.za/application-status-2024/" },
+            { name: "Sol Plaatje University", shortName: "SPU", note: null, logo: "SPU.webp", prospectusUrl: "https://www.spu.ac.za/index.php/study-at-spu/undergraduate-prospectus/", applyUrl: "https://www.spu.ac.za/index.php/study-at-spu/how-to-apply/", statusUrl: "https://www.spu.ac.za/index.php/study-at-spu/application-status/" },
+            { name: "University of Mpumalanga", shortName: "UMP", note: null, logo: "UMP.webp", prospectusUrl: "https://www.ump.ac.za/undergraduate-prospectus/", applyUrl: "https://www.ump.ac.za/apply/", statusUrl: "https://www.ump.ac.za/application-status/" },
+            { name: "University of Venda", shortName: "UNIVEN", note: null, logo: "UNIVEN.webp", prospectusUrl: "https://www.univen.ac.za/students/undergraduate-prospectus/", applyUrl: "https://online.univen.ac.za/pls/prodi41/gen.gw1pkg.gw1view", statusUrl: "https://online.univen.ac.za/pls/prodi41/w99pkg.mi_login" }
+        ];
+
+        function populateSubjectSelects() {
+            const inputsContainer = document.getElementById('smartApsInputs');
+            inputsContainer.innerHTML = '';
+            for (let i = 0; i < 7; i++) {
+                const subjectBlock = document.createElement('div');
+                subjectBlock.className = 'subject-block';
+                subjectBlock.innerHTML = `
+                    <select class="subject-select">
+                        <option value="">Select Subject</option>
+                        ${allSubjects.map(sub => `<option value="${sub}">${sub}</option>`).join('')}
+                    </select>
+                    <input type="number" placeholder="Mark (%)" min="0" max="100">
+                `;
+                inputsContainer.appendChild(subjectBlock);
+            }
+        }
+
+        function renderUniversities(universityList) {
+            const listContainer = document.getElementById('universitiesList');
+            listContainer.innerHTML = '';
+            universityList.forEach(uni => {
+                const uniBox = document.createElement('div');
+                uniBox.className = 'university-box';
+                uniBox.innerHTML = `
+                    <p class="university-name">${uni.name}</p>
+                    ${uni.note ? `<i class="university-note">${uni.note}</i>` : ''}
+                    <img src="${uni.logo}" alt="${uni.shortName} logo"/>
+                    <div class="link-container">
+                        <a href="${uni.prospectusUrl}" class="prospectus-link" target="_blank">PROSPECTUS</a>
+                        <a href="${uni.applyUrl}" class="apply-link" target="_blank">APPLY</a>
+                        <a href="${uni.statusUrl}" class="status-link" target="_blank">STATUS</a>
+                    </div>
+                `;
+                listContainer.appendChild(uniBox);
+            });
+        }
+
+        function getApsScore(mark) {
+            if (mark >= 80) return 7;
+            if (mark >= 70) return 6;
+            if (mark >= 60) return 5;
+            if (mark >= 50) return 4;
+            if (mark >= 40) return 3;
+            if (mark >= 30) return 2;
+            return 1;
+        }
+
+        function calculateAPS() {
+            const resultDiv = document.getElementById('smartApsResult');
+            const blocks = document.querySelectorAll('#smartApsInputs .subject-block');
+            let subjectsWithMarks = [];
+
+            blocks.forEach(block => {
+                const subject = block.querySelector('select').value;
+                const mark = parseInt(block.querySelector('input').value, 10);
+                if (subject && !isNaN(mark)) {
+                    subjectsWithMarks.push({ subject, mark, aps: getApsScore(mark) });
+                }
+            });
+
+            const filteredAndSortedSubjects = subjectsWithMarks
+                .filter(s => s.subject !== "Life Orientation")
+                .sort((a, b) => b.aps - a.aps);
+
+            const topSixSubjects = filteredAndSortedSubjects.slice(0, 6);
+            let totalAps = topSixSubjects.reduce((sum, current) => sum + current.aps, 0);
+
+            let matches = facultyRequirements.filter(faculty => {
+                if (totalAps < faculty.minAPS) return false;
+                const meetsSubjectReqs = faculty.reqs.every(req => {
+                    const studentSubject = subjectsWithMarks.find(s => s.subject === req.subject);
+                    return studentSubject && studentSubject.mark >= req.minMark;
+                });
+                return meetsSubjectReqs;
+            });
+            
+            if (matches.length === 0) {
+                matches = facultyRequirements.filter(faculty => faculty.name.includes("General"));
+            }
+
+            let html = `<strong>Your APS:</strong> ${totalAps}<br>`;
+            if (matches.length > 0) {
+                html += `<strong>Recommended Faculties & Institutions:</strong><ul>`;
+                matches.forEach(faculty => {
+                    const matchedUnis = faculty.universities
+                        .map(uniShortName => {
+                           const foundUni = universities.find(u => u.shortName === uniShortName);
+                           return foundUni ? foundUni.name : null;
+                        })
+                        .filter(name => name)
+                        .join(', ');
+                    html += `<li><b>${faculty.name}</b> at: ${matchedUnis}</li>`;
+                });
+                html += `</ul>`;
+            } else {
+                html += `<span>No matching faculties found. Please re-evaluate your subject choices or marks.</span>`;
+            }
+            resultDiv.innerHTML = html;
+        }
+
+        function searchUniversities() {
+            const searchTerm = document.getElementById('universitySearch').value.toLowerCase();
+            const filteredUniversities = universities.filter(uni => {
+                const uniNameMatch = uni.name.toLowerCase().includes(searchTerm);
+                const uniShortNameMatch = uni.shortName.toLowerCase().includes(searchTerm);
+                const facultyMatch = facultyRequirements.some(faculty => 
+                    (faculty.universities.includes(uni.shortName) && faculty.name.toLowerCase().includes(searchTerm))
+                );
+                return uniNameMatch || uniShortNameMatch || facultyMatch;
+            });
+            renderUniversities(filteredUniversities);
+        }
+
+        window.onload = function() {
+            populateSubjectSelects();
+            renderUniversities(universities);
+            document.getElementById('universitySearch').addEventListener('keyup', searchUniversities);
+
+            /* ---------- Minimal JS for the hamburger (preserves original functionality) ---------- */
+            const hamburgerEl = document.getElementById('hamburger');
+            const navLinksEl = document.getElementById('navLinks');
+
+            if (hamburgerEl && navLinksEl) {
+                hamburgerEl.addEventListener('click', function () {
+                    const isActive = navLinksEl.classList.toggle('active');
+                    this.setAttribute('aria-expanded', String(isActive));
+                    this.classList.toggle('open');
+                });
+
+                // allow keyboard activation (Enter/Space)
+                hamburgerEl.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+
+                // close mobile menu automatically when resizing to desktop
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 768) {
+                        navLinksEl.classList.remove('active');
+                        hamburgerEl.setAttribute('aria-expanded', 'false');
+                        hamburgerEl.classList.remove('open');
+                    }
+                });
+            }
+        };
+    </script>
+</body>
 </html>
