@@ -591,6 +591,14 @@
                     subjectsWithMarks.push({ subject, mark, aps: getApsScore(mark) });
                 }
             });
+              // Google Analytics custom event
+  gtag('event', 'calculate_aps_click', {
+    event_category: 'engagement',
+    event_label: 'APS Calculator',
+    value: 1
+  });
+
+
 
             const filteredAndSortedSubjects = subjectsWithMarks
                 .filter(s => s.subject !== "Life Orientation")
@@ -680,5 +688,43 @@
             }
         };
     </script>
+ 
+
+<!-- Google Analytics tracking for university link clicks -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const listContainer = document.getElementById('universitiesList');
+
+    listContainer.addEventListener('click', function (event) {
+      const target = event.target;
+
+      if (target.classList.contains('prospectus-link')) {
+        gtag('event', 'prospectus_click', {
+          event_category: 'engagement',
+          event_label: target.href,
+          value: 1
+        });
+      }
+
+      if (target.classList.contains('apply-link')) {
+        gtag('event', 'apply_click', {
+          event_category: 'engagement',
+          event_label: target.href,
+          value: 1
+        });
+      }
+
+      if (target.classList.contains('status-link')) {
+        gtag('event', 'status_check_click', {
+          event_category: 'engagement',
+          event_label: target.href,
+          value: 1
+        });
+      }
+    });
+  });
+</script>
+
+</body>
 </body>
 </html>
